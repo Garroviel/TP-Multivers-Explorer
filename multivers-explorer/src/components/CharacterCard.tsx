@@ -10,6 +10,7 @@ function CharacterCard({ character }: CharacterCardProps) {
     <article
       style={{
         border: '1px solid #ddd',
+		backgroundColor:'#bba1ca3f',
         borderRadius: '8px',
         padding: '1rem',
         textAlign: 'center',
