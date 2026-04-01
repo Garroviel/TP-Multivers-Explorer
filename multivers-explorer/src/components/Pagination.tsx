@@ -7,11 +7,11 @@ type PaginationProps = {
 };
 
 function Pagination({
-  onPrevious,
-  onNext,
-  hasPrevious,
+  onPrevious, // Une fonction à appeler quand on clique sur Précédent
+  onNext, // Une fonction à appeler quand on clique sur Suivant
+  hasPrevious, // Un booléen qui dit s’il existe une page précédente
   hasNext,
-  isLoading,
+  isLoading, // desactive bouton pendant chargement
 }: PaginationProps) {
   return (
     <div

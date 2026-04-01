@@ -10,8 +10,8 @@ function HomePage() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [info, setInfo] = useState<CharactersApiResponse['info'] | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1); // current page pour initialiser à page 1
+  const [info, setInfo] = useState<CharactersApiResponse['info'] | null>(null); // pour récupérer next et prev de CharacterAPIresponse
 
   useEffect(() => {
     async function loadCharacters() {
@@ -19,9 +19,9 @@ function HomePage() {
         setLoading(true);
         setError('');
 
-        const data = await fetchCharacters(currentPage);
+        const data = await fetchCharacters(currentPage); // fetch fonction service avec currentPage 
         setCharacters(data.results);
-        setInfo(data.info);
+        setInfo(data.info);	// pour obtenir info prev et next 
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -34,11 +34,12 @@ function HomePage() {
     }
 
     loadCharacters();
-  }, [currentPage]);
+  }, [currentPage]); // useEffect dépend de current page - fetch nouvelle page
 
   function handlePreviousPage() {
-    if (info?.prev) {
-      setCurrentPage((prevPage) => prevPage - 1);
+    if (info?.prev) { // vérifie page précédente existe avant décrémenter
+		// ?. si info vaut null, ça évite une erreur et si existe on lit prev
+      setCurrentPage((prevPage) => prevPage - 1); // on calcule le nouvel état à partir de l’ancien.
     }
   }
 
@@ -57,15 +58,15 @@ function HomePage() {
 
       {!loading && error && <ErrorMessage message={error} />}
 
-      {!loading && !error && (
+      {!loading && !error && ( // pagination seulement si chargement terminé et pas erreurs
         <>
           <CharacterGrid characters={characters} />
 
           <Pagination
             onPrevious={handlePreviousPage}
             onNext={handleNextPage}
-            hasPrevious={info?.prev !== null}
-            hasNext={info?.next !== null}
+            hasPrevious={info?.prev !== null} // prev est null, il n’y a pas de page précédente
+            hasNext={info?.next !== null} // next est null, il n’y a pas de page suivante
             isLoading={loading}
           />
         </>
